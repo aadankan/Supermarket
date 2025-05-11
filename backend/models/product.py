@@ -1,11 +1,11 @@
-from sqlalchemy import Column, Integer, String, DECIMAL
-from app.database import Base
+from sqlalchemy import Column, Integer, String, Float
+from .database import Base
 
 class Product(Base):
-    __tablename__ = "produkty"
+    __tablename__ = "products"
 
     id = Column(Integer, primary_key=True, index=True)
-    nazwa = Column(String(150), nullable=False)
-    opis = Column(String(255), nullable=True)
-    cena = Column(DECIMAL(10, 2), nullable=False)
-    ilosc = Column(Integer, default=0)
+    name = Column(String(100), nullable=False)
+    price = Column(Float, nullable=False)
+    count = Column(Integer, nullable=False)
+    description = Column(String(255))
