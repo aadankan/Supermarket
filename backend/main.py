@@ -25,7 +25,7 @@ def read_root():
 
 @app.get("/products", response_model=list[Product])
 def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    products = crud_product.get_all(db=db, skip=skip, limit=limit)
+    products = crud_product.get_products(db=db, skip=skip, limit=limit)
     return products
 
 @app.post("/products", response_model=Product)
