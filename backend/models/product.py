@@ -9,3 +9,7 @@ class Product(Base):
     price = Column(Float, nullable=False)
     count = Column(Integer, nullable=False)
     description = Column(String(255))
+    category_id = Column(Integer, nullable=False)
+    supplier_id = Column(Integer, nullable=False)
+    image_url = Column(String(255))
+    

@@ -17,13 +17,13 @@ def verify_password(plain_password, hashed_password):
 
 
 def get_users(db: Session):
-    result = db.execute(text("SELECT id, name, email, is_admin FROM users")).mappings()
+    result = db.execute(text("SELECT id, username, email, is_admin FROM Users")).mappings()
     return [dict(row) for row in result]
 
 
 def get_by_id(db: Session, user_id: int):
     result = db.execute(
-        text("SELECT id, name, email, is_admin FROM users WHERE id = :id"),
+        text("SELECT id, username, email, is_admin FROM Users WHERE id = :id"),
         {"id": user_id}
     ).first()
     return dict(result) if result else None
@@ -31,9 +31,9 @@ def get_by_id(db: Session, user_id: int):
 def create_user(db: Session, user: UserCreate):
     hashed_password = hash_password(user.password)
     db.execute(
-        text("INSERT INTO users (name, email, password_hash) VALUES (:name, :email, :password)"),
+        text("INSERT INTO Users (username, email, password_hash) VALUES (:username, :email, :password)"),
         {
-            "name": user.name,
+            "username": user.username,
             "email": user.email,
             "password": hashed_password,
             "is_admin": user.is_admin
@@ -46,9 +46,9 @@ def update_user(db: Session, user_id: int, user_data: UserUpdate):
     fields = []
     params = {"id": user_id}
 
-    if user_data.name:
-        fields.append("name = :name")
-        params["name"] = user_data.name
+    if user_data.username:
+        fields.append("username = :username")
+        params["username"] = user_data.username
     if user_data.email:
         fields.append("email = :email")
         params["email"] = user_data.email
@@ -62,13 +62,13 @@ def update_user(db: Session, user_id: int, user_data: UserUpdate):
     if not fields:
         return {"message": "No data to update"}
 
-    sql = f"UPDATE users SET {', '.join(fields)} WHERE id = :id"
+    sql = f"UPDATE Users SET {', '.join(fields)} WHERE id = :id"
     db.execute(text(sql), params)
     db.commit()
     return {"message": "User updated successfully"}
 
 def delete_user(db: Session, user_id: int):
-    result = db.execute(text("DELETE FROM users WHERE id = :id"), {"id": user_id})
+    result = db.execute(text("DELETE FROM Users WHERE id = :id"), {"id": user_id})
     db.commit()
     if result.rowcount:
         return {"message": "User deleted successfully"}
