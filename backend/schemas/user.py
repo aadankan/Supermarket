@@ -1,4 +1,4 @@
-from backend.schemas.address import AddressOut
+from schemas.address import AddressOut
 
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional

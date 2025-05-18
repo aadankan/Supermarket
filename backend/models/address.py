@@ -16,3 +16,5 @@ class Address(Base):
 
     # Relationship
     user = relationship("User", back_populates="addresses")
+    orders = relationship("Order", back_populates="shipping_address", foreign_keys="Order.shipping_address_id")
+    billing_orders = relationship("Order", back_populates="billing_address", foreign_keys="Order.billing_address_id")

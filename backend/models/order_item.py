@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, ForeignKey, Numeric, PrimaryKeyConstraint
+from sqlalchemy.orm import relationship
 from .database import Base
 
 class OrderItems(Base):
@@ -12,3 +13,6 @@ class OrderItems(Base):
     __table_args__ = (
         PrimaryKeyConstraint('order_id', 'product_id'),
     )
+
+    order = relationship("Order", back_populates="items")
+    product = relationship("Product", back_populates="order_items")
