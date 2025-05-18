@@ -1,0 +1,26 @@
+/project-root
+├── backend/                      # Backend: FastAPI + MySQL
+│   ├── app/                      # Logika aplikacji
+│   │   ├── crud/                 # Operacje na bazie (create/read/update/delete)
+│   │   ├── schemas/              # Pydantic - definicje danych wejściowych/wyjściowych
+│   │   ├── services/             # Logika biznesowa
+│   │   ├── database.py           # Połączenie z MySQL (SQLAlchemy)
+│   │   └── config.py             # Ustawienia (np. hasło do DB)
+│   ├── models/                   # SQLAlchemy modele tabel
+│   ├── routers/                  # FastAPI endpointy (np. /produkty, /zamowienia)
+│   └── main.py                   # Entry point backendu (FastAPI instance)
+│
+├── frontend/                     # Frontend: React + TypeScript
+│   ├── src/
+│   │   ├── components/           # Komponenty UI
+│   │   ├── pages/                # Widoki: Koszyk, Produkty, AdminPanel itp.
+│   │   ├── api/                  # Komunikacja z backendem (np. axios)
+│   │   ├── hooks/                # Niestandardowe hooki
+│   │   ├── types/                # Typy TypeScript
+│   │   └── App.tsx               # Główny komponent aplikacji
+│   └── public/                   # index.html i zasoby statyczne
+│
+├── .env                          # Zmienne środowiskowe (DB, klucze)
+├── docker-compose.yml            # (opcjonalnie) baza danych i środowisko dev
+├── README.md                     # Dokumentacja projektu
+└── requirements.txt              # Wymagania backendu (FastAPI, SQLAlchemy, itp.)

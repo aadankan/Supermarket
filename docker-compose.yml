@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: mysql:8.0
@@ -9,14 +11,34 @@ services:
       MYSQL_PASSWORD: sklep_pass
     ports:
       - "3306:3306"
-
-  backend:
-    build: .
     volumes:
-      - .:/app
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: sklep-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: sklep_user
+      PMA_PASSWORD: sklep_pass
     ports:
-      - "8000:8000"
+      - "8080:80"
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=mysql+pymysql://sklep_user:sklep_pass@sklep-db:3306/sklep_db
+
+  # backend:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   container_name: sklep-backend
+  #   volumes:
+  #     - ./backend:/app
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - DATABASE_URL=mysql+pymysql://sklep_user:sklep_pass@db:3306/sklep_db
+
+volumes:
+  db_data:
