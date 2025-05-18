@@ -1,3 +1,3 @@
 # Supermarket
 ## Data Base Structure
-![DB Structure](docs\images\DBStructure.png)
+![DB Structure](docs/images/DBStructure.png)
