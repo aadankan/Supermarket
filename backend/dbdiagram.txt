@@ -1,0 +1,98 @@
+Table Users {
+  id integer [primary key, not null]
+  username varchar(50) [not null]
+  email varchar(100) [not null]
+  password_hash varchar(255) [not null]
+  is_admin bool [not null]
+  phone_number varchar(15) [unique]
+  first_name varchar(50)
+  last_name varchar(50)
+  default_address_id integer
+  created_at datetime [not null]
+}
+
+Table Addresses {
+  id integer [primary key, not null]
+  user_id integer [not null]
+  street varchar(100) [not null]
+  city varchar(50) [not null]
+  postal_code varchar(20) [not null]
+  country varchar(50) [not null]
+  is_default bool [not null]
+  created_at datetime [not null]
+}
+
+Table Products {
+  id integer [primary key, not null]
+  name varchar(100) [not null]
+  description text [not null]
+  price decimal [not null]
+  category_id integer [not null]
+  supplier_id integer
+  image_url varchar(255)
+}
+
+Table Inventory {
+  product_id integer [primary key, not null]
+  quantity integer [not null]
+  location varchar(100) [not null]
+}
+
+Table Orders {
+  id integer [primary key, not null]
+  user_id integer [not null]
+  order_date datetime [not null]
+  status varchar(20) [not null] // 'pending', 'shipped', etc.
+  shipping_address_id integer [not null]
+  billing_address_id integer [not null]
+}
+
+Table OrderItems {
+  order_id integer [not null]
+  product_id integer [not null]
+  quantity integer [not null]
+  price decimal [not null]
+
+  primary key (order_id, product_id)
+}
+
+Table Suppliers {
+  id integer [primary key, not null]
+  name varchar(100) [not null]
+  phone_number varchar(15)
+  email varchar(100)
+  address varchar(255)
+}
+
+Table Categories {
+  id integer [primary key, not null]
+  name varchar(100) [not null]
+}
+
+Table Transactions {
+  id integer [primary key, not null]
+  product_id integer [not null]
+  change integer [not null]
+  transaction_type varchar(20) [not null] // 'purchase', 'sale', 'adjustment'
+  timestamp datetime [not null]
+  note text
+}
+
+// Relacje
+
+Ref: Addresses.user_id > Users.id
+Ref: Users.default_address_id < Addresses.id
+
+Ref: Products.category_id > Categories.id
+Ref: Products.supplier_id > Suppliers.id
+
+Ref: Inventory.product_id > Products.id
+
+Ref: Orders.user_id > Users.id
+Ref: Orders.shipping_address_id < Addresses.id
+Ref: Orders.billing_address_id < Addresses.id
+
+Ref: OrderItems.order_id > Orders.id
+Ref: OrderItems.product_id > Products.id
+
+Ref: Transactions.product_id > Products.id

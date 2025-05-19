@@ -1,18 +1,14 @@
-# schemas/product.py
 from pydantic import BaseModel
 from decimal import Decimal
+from typing import Optional
 
 class ProductBase(BaseModel):
     name: str
-    description: str | None = None
+    description: Optional[str] = None
     price: Decimal
-    count: int | None = 0
+    count: int = 0
 
 class ProductCreate(ProductBase):
-    name: str
-    description: str | None = None
-    price: Decimal
-    count: int | None = 0
     class Config:
         orm_mode = True
 
@@ -23,10 +19,10 @@ class Product(ProductBase):
         orm_mode = True
 
 class ProductUpdate(BaseModel):
-    name: str | None = None
-    description: str | None = None
-    price: Decimal | None = None
-    count: int | None = None
+    name: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[Decimal] = None
+    count: Optional[int] = None
 
     class Config:
         orm_mode = True
