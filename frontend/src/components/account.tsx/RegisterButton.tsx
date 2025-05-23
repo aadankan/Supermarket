@@ -1,14 +1,14 @@
-const RegisterButton = (props: {register: () => void}) => {
+const RegisterButton = (props: { register: () => void; children: any; fullWidth?: boolean }) => {
   return (
     <div
-          className="h-24 px-11 py-7 bg-blue-600 rounded-[40px] shadow-[0px_0px_10px_2.5px_rgba(8,119,246,1.00)] inline-flex justify-center items-center gap-6 overflow-hidden cursor-pointer"
-          onClick={props.register}
-        >
-          <div className="justify-start text-white text-4xl font-bold [text-shadow:_10px_10px_10px_rgb(0_0_0_/_0.25)]">
-            Register
-          </div>
-        </div>
-  )
-}
+      className={`${
+        props.fullWidth && "w-full"
+      } px-5 py-2 bg-blue-600 rounded-[40px] shadow-lg shadow-blue-600 inline-flex justify-center items-center gap-6 overflow-hidden cursor-pointer`}
+      onClick={props.register}
+    >
+      {props.children}
+    </div>
+  );
+};
 
 export default RegisterButton;

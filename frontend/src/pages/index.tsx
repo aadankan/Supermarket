@@ -12,7 +12,7 @@ const MainPage = () => {
   };
 
   const register = () => {
-    navigate("/register")
+    navigate("/register");
   };
 
   const adminPanel = () => {
@@ -20,14 +20,19 @@ const MainPage = () => {
   };
 
   return (
-    <div
-      style={{ backgroundImage: `url(${supermarket})` }}
-      className="bg-cover bg-bottom h-screen"
-    >
+    <div style={{ backgroundImage: `url(${supermarket})` }} className="bg-cover bg-bottom h-screen">
       <AdminPanel adminPanel={adminPanel} />
       <div className="w-full h-[calc(100%-160px)] flex justify-center items-center gap-40 overflow-hidden">
-        <LoginButton login={login} />
-        <RegisterButton register={register} />
+        <LoginButton login={login}>
+          <div className="justify-start text-white text-4xl font-bold [text-shadow:_10px_10px_10px_rgb(0_0_0_/_0.25)]">
+            Log In
+          </div>
+        </LoginButton>
+        <RegisterButton register={register}>
+            <div className="justify-start text-white text-4xl font-bold [text-shadow:_10px_10px_10px_rgb(0_0_0_/_0.25)]">
+            Register
+          </div>
+        </RegisterButton>
       </div>
     </div>
   );

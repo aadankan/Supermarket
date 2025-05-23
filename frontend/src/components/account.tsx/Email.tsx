@@ -1,11 +1,27 @@
-const Email = () => {
+import React from "react";
+import Input from "./Input";
+import Label from "./Label";
+
+type EmailProps = {
+  center?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const Email = ({ center, value, onChange }: EmailProps) => {
   return (
-    <div className="w-full flex flex-col justify-start items-start gap-3.5 overflow-hidden">
-      <div className="w-full justify-start text-white text-3xl [text-shadow:_0px_3px_3px_rgb(0,0,0,1)]">
+    <div className={`w-[80%] flex flex-col items-start gap-3.5 overflow-hidden`}>
+      <Label center={center || false}>
         Enter your email
-      </div>
-      <input className="w-[80%] p-4 h-14 relative bg-white/60 rounded-xl border-[1.50px] border-black" />
+      </Label>
+      <Input
+        type="email"
+        placeholder="Email"
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 };
+
 export default Email;
