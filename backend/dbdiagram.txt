@@ -1,7 +1,7 @@
 Table Users {
   id integer [primary key, not null]
   username varchar(50) [not null]
-  email varchar(100) [not null]
+  email varchar(100) [not null, unique]
   password_hash varchar(255) [not null]
   is_admin bool [not null]
   phone_number varchar(15) [unique]
@@ -9,6 +9,14 @@ Table Users {
   last_name varchar(50)
   default_address_id integer
   created_at datetime [not null]
+  email_confirmed bool [not null, default: false]
+}
+
+Table EmailVerifications {
+  id char(36) [primary key, not null] // UUID string
+  email varchar(100) [not null, unique]
+  token varchar(255) [not null]
+  is_verified bool [not null, default: false]
 }
 
 Table Addresses {
@@ -96,3 +104,5 @@ Ref: OrderItems.order_id > Orders.id
 Ref: OrderItems.product_id > Products.id
 
 Ref: Transactions.product_id > Products.id
+
+Ref: EmailVerifications.email > Users.email

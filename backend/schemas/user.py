@@ -3,28 +3,32 @@ from schemas.address import AddressOut
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
-
-
 # Base schema shared across others
 class UserBase(BaseModel):
-    username: str
+    username: Optional[str] = None
     email: EmailStr
     is_admin: bool = False
 
-# Schema for user creation (includes password)
-class UserCreate(UserBase):
-    password: str  # plain password input
+class UserCreate(BaseModel):
+    email: EmailStr
 
 # Schema for user updates (partial update support)
 class UserUpdate(BaseModel):
-    username: Optional[str] = None
-    email: Optional[EmailStr] = None
-    password: Optional[str] = None
-    is_admin: Optional[bool] = None
+    username: Optional[str]
+    password: Optional[str]
+    firstName: Optional[str]
+    lastName: Optional[str]
+    phoneNumber: Optional[str]
+    country: Optional[str]
+    postalCode: Optional[str]
+    city: Optional[str]
+    street: Optional[str]
+    is_admin: Optional[bool]
 
 # Schema returned in list/GET operations
 class UserOut(UserBase):
     id: int
+    email_confirmed: bool = False
 
     class Config:
         orm_mode = True
@@ -37,4 +41,7 @@ class User(UserOut):
     phone_number: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
-    default_address: Optional[dict] = None  # Details of the default address
+
+
+class EmailRequest(BaseModel):
+    email: str

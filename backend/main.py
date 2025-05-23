@@ -1,12 +1,26 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from models.database import Base, engine, SessionLocal
-from models import product, category, user, inventory, order, order_item, supplier, transaction, address
-from routers import product, category, user, inventory, order, order_item, supplier, transaction, address
+from models import product, category, user, inventory, order, order_item, supplier, transaction, address, email_verification
+from routers import product, category, user, inventory, order, order_item, supplier, transaction, address, email_verification
 
 # Create all tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Supermarket API")
+
+origins = [
+    "http://localhost:5173",  # adres frontendu
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,         # zezwól na zapytania z tego origin
+    allow_credentials=True,
+    allow_methods=["*"],           # zezwól na wszystkie metody (GET, POST, itd)
+    allow_headers=["*"],           # zezwól na wszystkie nagłówki
+)
 
 # Dependency to get DB session
 def get_db():
@@ -31,3 +45,4 @@ app.include_router(order_item.router, prefix="/order-items", tags=["order_items"
 app.include_router(supplier.router, prefix="/suppliers", tags=["suppliers"])
 app.include_router(transaction.router, prefix="/transactions", tags=["transactions"])
 app.include_router(address.router, prefix="/addresses", tags=["addresses"])
+app.include_router(email_verification.router, prefix="/email-verification", tags=["email_verification"])
