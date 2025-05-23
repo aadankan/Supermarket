@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from models.database import Base, engine, SessionLocal
 from models import product, category, user, inventory, order, order_item, supplier, transaction, address, email_verification
-from routers import product, category, user, inventory, order, order_item, supplier, transaction, address, email_verification
+from routers import product, category, user, inventory, order, order_item, supplier, transaction, address, email_verification, auth
 
 # Create all tables
 Base.metadata.create_all(bind=engine)
@@ -46,3 +46,4 @@ app.include_router(supplier.router, prefix="/suppliers", tags=["suppliers"])
 app.include_router(transaction.router, prefix="/transactions", tags=["transactions"])
 app.include_router(address.router, prefix="/addresses", tags=["addresses"])
 app.include_router(email_verification.router, prefix="/email-verification", tags=["email_verification"])
+app.include_router(auth.router, prefix="/auth", tags=["auth"])

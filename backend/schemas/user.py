@@ -45,3 +45,7 @@ class User(UserOut):
 
 class EmailRequest(BaseModel):
     email: str
+    
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str

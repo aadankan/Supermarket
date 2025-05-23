@@ -11,8 +11,40 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = () => {
-    console.log("login");
+  const login = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Login failed");
+      }
+
+      const data = await response.json();
+      const { access_token } = data;
+
+      // Zapisz token do localStorage
+      localStorage.setItem("token", access_token);
+
+      // Przekierowanie po zalogowaniu
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+      if (error instanceof Error) {
+        alert("Login failed: " + error.message);
+      } else {
+        alert("Login failed: " + String(error));
+      }
+    }
   };
 
   const register = () => {
@@ -29,8 +61,20 @@ const LoginPage = () => {
       <div className="w-full h-[calc(100%-160px)] flex justify-center items-center overflow-hidden">
         <div className="p-9 bg-white/60 rounded-[60px] shadow-[0px_3px_3px_0px_rgba(0,0,0,0.25)] outline-4 outline-blue-600 inline-flex flex-col justify-center items-center gap-8 overflow-hidden">
           <div className="w-full flex flex-col justify-center items-center gap-4 overflow-hidden">
-            <LabelAndInput inputType="text" placeholderText="test@example.com" labelText="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <LabelAndInput inputType="password" placeholderText="Pasword" labelText="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <LabelAndInput
+              inputType="text"
+              placeholderText="test@example.com"
+              labelText="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <LabelAndInput
+              inputType="password"
+              placeholderText="Pasword"
+              labelText="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <div className="w-[80%]">
             <LoginButton login={login} fullWidth={true}>
