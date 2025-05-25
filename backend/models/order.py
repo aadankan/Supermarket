@@ -13,6 +13,6 @@ class Order(Base):
     billing_address_id = Column(Integer, ForeignKey("Addresses.id"), nullable=False)
 
     user = relationship("User", back_populates="orders")
-    shipping_address = relationship("Address", foreign_keys=[shipping_address_id])
-    billing_address = relationship("Address", foreign_keys=[billing_address_id])
+    shipping_address = relationship("Address", foreign_keys=[shipping_address_id], back_populates="orders")
+    billing_address = relationship("Address", foreign_keys=[billing_address_id], back_populates="billing_orders")
     items = relationship("OrderItems", back_populates="order", cascade="all, delete-orphan")

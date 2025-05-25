@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from models.database import SessionLocal
-from schemas.user import User, UserCreate, UserUpdate
+from schemas.user import User, UserCreate, UserOut, UserUpdate, EmailRequest
 from crud import user as crud_user
 
 router = APIRouter()
@@ -26,7 +26,14 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/", response_model=dict)
+@router.post("/get-user-id")
+def get_user_id_by_email(data: EmailRequest, db: Session = Depends(get_db)):
+    user = crud_user.get_user_by_email(db, data.email)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"userId": user["id"]}
+
+@router.post("/", response_model=UserOut)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return crud_user.create_user(db, user)
 

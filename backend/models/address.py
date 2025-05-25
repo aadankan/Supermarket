@@ -15,6 +15,7 @@ class Address(Base):
     created_at = Column(String(50), nullable=False)
 
     # Relationship
-    user = relationship("User", back_populates="addresses")
-    orders = relationship("Order", back_populates="shipping_address", foreign_keys="Order.shipping_address_id")
-    billing_orders = relationship("Order", back_populates="billing_address", foreign_keys="Order.billing_address_id")
+    user = relationship("User", back_populates="addresses", foreign_keys=[user_id])
+    orders = relationship("Order", back_populates="shipping_address", foreign_keys="[Order.shipping_address_id]")
+    billing_orders = relationship("Order", back_populates="billing_address", foreign_keys="[Order.billing_address_id]")
+

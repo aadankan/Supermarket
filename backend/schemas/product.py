@@ -7,6 +7,7 @@ class ProductBase(BaseModel):
     description: Optional[str] = None
     price: Decimal
     count: int = 0
+    image_url: Optional[str] = None
 
 class ProductCreate(ProductBase):
     class Config:
