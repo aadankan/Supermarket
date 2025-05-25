@@ -20,7 +20,7 @@ const MainPage = () => {
   };
 
   return (
-    <div style={{ backgroundImage: `url(${supermarket})` }} className="bg-cover bg-bottom h-screen">
+    <div style={{ backgroundImage: `url(${supermarket})` }} className="bg-cover bg-bottom h-screen p-6">
       <AdminPanel adminPanel={adminPanel} />
       <div className="w-full h-[calc(100%-160px)] flex justify-center items-center gap-40 overflow-hidden">
         <LoginButton login={login}>

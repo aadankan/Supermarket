@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from crud import supplier as crud_supplier
 from schemas.supplier import SupplierCreate, SupplierUpdate, SupplierOut
 from models.database import SessionLocal
+from routers.auth import get_current_user
+from models.user import User as UserModel
 
 router = APIRouter()
 
@@ -27,22 +29,35 @@ def read_supplier(supplier_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Supplier not found")
     return supplier
 
-# Create new supplier
+# Create new supplier (auth required)
 @router.post("/", response_model=SupplierOut)
-def create_supplier(supplier: SupplierCreate, db: Session = Depends(get_db)):
+def create_supplier(
+    supplier: SupplierCreate,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
     return crud_supplier.create_supplier(db=db, supplier=supplier)
 
-# Update supplier
+# Update supplier (auth required)
 @router.put("/{supplier_id}", response_model=SupplierOut)
-def update_supplier(supplier_id: int, supplier_data: SupplierUpdate, db: Session = Depends(get_db)):
+def update_supplier(
+    supplier_id: int,
+    supplier_data: SupplierUpdate,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
     updated_supplier = crud_supplier.update_supplier(db=db, supplier_id=supplier_id, supplier_data=supplier_data)
     if not updated_supplier:
         raise HTTPException(status_code=404, detail="Supplier not found")
     return updated_supplier
 
-# Delete supplier
+# Delete supplier (auth required)
 @router.delete("/{supplier_id}", response_model=dict)
-def delete_supplier(supplier_id: int, db: Session = Depends(get_db)):
+def delete_supplier(
+    supplier_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
     result = crud_supplier.delete_supplier(db=db, supplier_id=supplier_id)
     if not result:
         raise HTTPException(status_code=404, detail="Supplier not found")

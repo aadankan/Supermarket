@@ -1,6 +1,6 @@
 const Button = ({ color }: { color: string }) => {
   return (
-    <button className={`${}`}>
+    <button >
       Click me
     </button>
   )
