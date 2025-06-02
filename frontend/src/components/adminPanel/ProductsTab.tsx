@@ -17,7 +17,7 @@ interface Category {
   name: string;
 }
 
-const ProductTable = () => {
+const ProductsTable = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -277,4 +277,4 @@ const ProductTable = () => {
   );
 };
 
-export default ProductTable;
+export default ProductsTable;
