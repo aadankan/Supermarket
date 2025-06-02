@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 # Model for creating an inventory entry
 class InventoryCreate(BaseModel):
@@ -12,7 +13,7 @@ class InventoryCreate(BaseModel):
 # Model for updating an inventory entry
 class InventoryUpdate(BaseModel):
     quantity: int
-    location: str
+    location: Optional[str] = None
 
     class Config:
         orm_mode = True

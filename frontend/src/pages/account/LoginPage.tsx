@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import supermarket from "../../assets/images/SupermarketEntrance.png";
-import AdminPanel from "../../components/account.tsx/AdminPanel";
 import LoginButton from "../../components/account.tsx/LoginButton";
 import LabelAndInput from "../../components/account.tsx/LabelAndInput";
 
@@ -51,14 +50,9 @@ const LoginPage = () => {
     navigate("/register");
   };
 
-  const adminPanel = () => {
-    console.log("adminPanel");
-  };
-
   return (
     <div style={{ backgroundImage: `url(${supermarket})` }} className="bg-cover bg-bottom h-screen">
-      <AdminPanel adminPanel={adminPanel} />
-      <div className="w-full h-[calc(100%-160px)] flex justify-center items-center overflow-hidden">
+      <div className="w-full h-full flex justify-center items-center overflow-hidden">
         <div className="p-9 bg-white/60 rounded-[60px] shadow-[0px_3px_3px_0px_rgba(0,0,0,0.25)] outline-4 outline-blue-600 inline-flex flex-col justify-center items-center gap-8 overflow-hidden">
           <div className="w-full flex flex-col justify-center items-center gap-4 overflow-hidden">
             <LabelAndInput
@@ -70,10 +64,15 @@ const LoginPage = () => {
             />
             <LabelAndInput
               inputType="password"
-              placeholderText="Pasword"
+              placeholderText="Password"
               labelText="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  login();
+                }
+              }}
             />
           </div>
           <div className="w-[80%]">

@@ -9,8 +9,12 @@ def get_inventory(db: Session, skip: int = 0, limit: int = 100):
 
 # Get inventory by product ID
 def get_inventory_by_product_id(db: Session, product_id: int):
-    result = db.execute(text("SELECT * FROM Inventory WHERE product_id = :id"), {"id": product_id}).first()
+    result = db.execute(
+        text("SELECT * FROM Inventory WHERE product_id = :id"),
+        {"id": product_id}
+    ).mappings().first()
     return dict(result) if result else None
+
 
 # Create inventory entry
 def create_inventory(db: Session, inventory: InventoryCreate):
@@ -28,10 +32,9 @@ def create_inventory(db: Session, inventory: InventoryCreate):
 # Update an inventory entry
 def update_inventory(db: Session, product_id: int, inventory_data: InventoryUpdate):
     db.execute(
-        text("UPDATE Inventory SET quantity = :quantity, location = :location WHERE product_id = :product_id"),
+        text("UPDATE Inventory SET quantity = :quantity WHERE product_id = :product_id"),
         {
             "quantity": inventory_data.quantity,
-            "location": inventory_data.location,
             "product_id": product_id
         }
     )
