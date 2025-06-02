@@ -15,6 +15,6 @@ class Product(Base):
 
     category = relationship("Category", back_populates="products")
     supplier = relationship("Supplier", back_populates="products")
-    inventory = relationship("Inventory", back_populates="product")
+    inventory = relationship("Inventory",back_populates="product",cascade="all, delete-orphan")
     order_items = relationship("OrderItems", back_populates="product")
     transactions = relationship("Transaction", back_populates="product")

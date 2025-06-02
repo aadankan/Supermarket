@@ -7,6 +7,7 @@ import LogoutButton from "../components/account.tsx/LogoutButton";
 
 import ProductsTable from "../components/adminPanel/ProductsTab";
 import CategoriesTable from "../components/adminPanel/CategoriesTab";
+import SuppliersTable from "../components/adminPanel/SuppliersTab";
 
 const AdminPanelPage = () => {
   const [currentTab, setCurrentTab] = useState<string>("Orders");
@@ -74,9 +75,9 @@ const AdminPanelPage = () => {
 
           {/* Content Area */}
           <div className="w-[76%] h-[98%] bg-amber-100/40 rounded-3xl p-4 overflow-auto">
-            <p className="text-2xl mb-4 font-semibold">Selected Tab: {currentTab}</p>
             {currentTab === "Products" && <ProductsTable />}
             {currentTab === "Categories" && <CategoriesTable />}
+            {currentTab === "Suppliers" && <SuppliersTable />}
           </div>
         </div>
       </div>

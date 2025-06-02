@@ -134,8 +134,32 @@ const ProductsTable = () => {
     setSelectedProduct(null);
   };
 
+  const handleDelete = async (productId: number) => {
+    if (!window.confirm("Czy na pewno chcesz usunąć ten produkt?")) return;
+
+    try {
+      const response = await fetch(`http://localhost:8000/products/${productId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to delete product");
+      setProducts((prev) => prev.filter((p) => p.id !== productId));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product. Please try again later.");
+    }
+  };
+
   return (
     <>
+      <div>
+        <p className="text-2xl mb-4 font-semibold">Selected Tab: Products</p>
+      </div>
+
       <div className="h-[88%] flex flex-col gap-2 overflow-auto relative">
         {/* Header */}
         <div className="w-full px-2 py-2 sticky top-0 bg-gray-200 rounded-lg shadow-sm flex justify-between items-center font-semibold text-gray-800">
@@ -167,7 +191,10 @@ const ProductsTable = () => {
                 >
                   <img className="w-4" src={editIcon} alt="Edytuj" />
                 </div>
-                <div className="cursor-pointer hover:bg-gray-200 p-1 rounded-full">
+                <div
+                  className="cursor-pointer hover:bg-gray-200 p-1 rounded-full"
+                  onClick={() => handleDelete(product.id)}
+                >
                   <img className="w-4" src={trashIcon} alt="Usuń" />
                 </div>
               </div>
