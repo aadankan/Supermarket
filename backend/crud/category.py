@@ -27,7 +27,7 @@ def create_category(db: Session, category: CategoryCreate):
     result = db.execute(
         text("SELECT * FROM Categories WHERE name = :name"),
         {"name": category.name}
-    ).first()
+    ).mappings().first()
     return dict(result) if result else {"message": "Category created successfully"}
 
 def update_category(db: Session, category_id: int, category: CategoryUpdate):
