@@ -21,7 +21,7 @@ def create_supplier(db: Session, supplier: SupplierCreate):
     db.commit()
 
     # Get the newly inserted supplier (assuming AUTO_INCREMENT `id`)
-    result = db.execute(text("SELECT * FROM Suppliers ORDER BY id DESC LIMIT 1")).fetchone()
+    result = db.execute(text("SELECT * FROM Suppliers ORDER BY id DESC LIMIT 1")).mappings().first()
     return dict(result)
 
 def update_supplier(db: Session, supplier_id: int, supplier_data: SupplierUpdate):

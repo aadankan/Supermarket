@@ -34,7 +34,7 @@ const SuppliersTable = () => {
 
   useEffect(() => {
     fetchSuppliers();
-  }, []); // ✅ Only run once on mount
+  }, []);
 
   const handleEditClick = (supplier: Supplier) => {
     setSelectedSupplier(supplier);
@@ -50,44 +50,82 @@ const SuppliersTable = () => {
   const handleSave = async () => {
     if (!selectedSupplier) return;
 
-    const originalSupplier = suppliers.find((s) => s.id === selectedSupplier.id);
-    const isUnchanged =
-      originalSupplier?.name === selectedSupplier.name &&
-      originalSupplier?.email === selectedSupplier.email &&
-      originalSupplier?.phone_number === selectedSupplier.phone_number;
-
-    if (isUnchanged) {
-      setIsEditModalOpen(false);
-      setSelectedSupplier(null);
+    // Walidacja minimalna
+    if (!selectedSupplier.name.trim()) {
+      alert("Nazwa dostawcy jest wymagana.");
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/suppliers/${selectedSupplier.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(selectedSupplier),
-      });
+      if (selectedSupplier.id === 0) {
+        // Dodawanie nowego dostawcy (POST)
+        const response = await fetch("http://localhost:8000/suppliers", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            name: selectedSupplier.name,
+            email: selectedSupplier.email,
+            phone_number: selectedSupplier.phone_number,
+          }),
+        });
 
-      if (!response.ok) throw new Error("Failed to update supplier");
-      const updatedSupplier = await response.json();
-      setSuppliers((prev) => prev.map((s) => (s.id === updatedSupplier.id ? updatedSupplier : s)));
+        if (!response.ok) throw new Error("Failed to add supplier");
+        const newSupplier = await response.json();
+        setSuppliers((prev) => [...prev, newSupplier]);
+      } else {
+        // Aktualizacja istniejącego dostawcy (PUT)
+        const originalSupplier = suppliers.find((s) => s.id === selectedSupplier.id);
+        const isUnchanged =
+          originalSupplier?.name === selectedSupplier.name &&
+          originalSupplier?.email === selectedSupplier.email &&
+          originalSupplier?.phone_number === selectedSupplier.phone_number;
+
+        if (isUnchanged) {
+          setIsEditModalOpen(false);
+          setSelectedSupplier(null);
+          return;
+        }
+
+        const response = await fetch(`http://localhost:8000/suppliers/${selectedSupplier.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(selectedSupplier),
+        });
+
+        if (!response.ok) throw new Error("Failed to update supplier");
+        const updatedSupplier = await response.json();
+        setSuppliers((prev) =>
+          prev.map((s) => (s.id === updatedSupplier.id ? updatedSupplier : s))
+        );
+      }
+
+      setIsEditModalOpen(false);
+      setSelectedSupplier(null);
     } catch (error) {
-      console.error("Error updating supplier:", error);
-      alert("Failed to update supplier. Please try again later.");
+      console.error("Error saving supplier:", error);
+      alert("Nie udało się zapisać dostawcy. Spróbuj ponownie później.");
     }
-
-    setIsEditModalOpen(false);
-    setSelectedSupplier(null);
   };
 
   return (
     <>
-      <div>
+      <div className="w-full flex justify-between items-center">
         <p className="text-2xl mb-4 font-semibold">Selected Tab: Suppliers</p>
+        <button
+          className="px-4 py-1 mb-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors cursor-pointer shadow-md"
+          onClick={() => {
+            setSelectedSupplier({ id: 0, name: "", email: "", phone_number: "" });
+            setIsEditModalOpen(true);
+          }}
+        >
+          Dodaj dostawcę
+        </button>
       </div>
 
       <div className="h-[88%] flex flex-col gap-2 overflow-auto relative">
@@ -128,7 +166,9 @@ const SuppliersTable = () => {
       {isEditModalOpen && selectedSupplier && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] flex flex-col gap-4">
-            <h2 className="text-lg font-bold">Edytuj Dostawcę</h2>
+            <h2 className="text-lg font-bold">
+              {selectedSupplier.id === 0 ? "Dodaj Dostawcę" : "Edytuj Dostawcę"}
+            </h2>
 
             <label className="flex flex-col text-sm font-medium text-gray-700">
               Nazwa
