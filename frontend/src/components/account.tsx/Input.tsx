@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = (props: {type: string, value: string, placeholder: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void}) => {
+const Input = (props: {type: string, value: string, placeholder: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, onKeyDown: any}) => {
     return (
         <input
             type={props.type}
@@ -8,6 +8,7 @@ const Input = (props: {type: string, value: string, placeholder: string, onChang
             value={props.value}
             placeholder={props.placeholder}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onChange(e)}
+            onKeyDown={props.onKeyDown}
         />
     )
 }

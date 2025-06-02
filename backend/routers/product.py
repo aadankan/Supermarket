@@ -18,15 +18,35 @@ def get_db():
         db.close()
 
 @router.get("/", response_model=List[Product])
-def get_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def get_products(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
     return crud_product.get_products(db, skip, limit)
 
+
+@router.get("/full")
+def get_products_with_categories_and_suppliers_and_inventory(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    return crud_product.get_products_with_categories_and_suppliers_and_inventory(db, skip, limit)
+
 @router.get("/{product_id}", response_model=Product)
-def get_product(product_id: int, db: Session = Depends(get_db)):
+def get_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
     product = crud_product.get_by_id(db, product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
+
 
 @router.post("/", response_model=dict)
 def create_product(

@@ -222,17 +222,12 @@ const RegisterPage = () => {
     }
   }, [emailConfirmPage, email]);
 
-  const adminPanel = () => {
-    console.log("adminPanel");
-  };
-
   sessionStorage.removeItem("emailConfirmed");
   sessionStorage.removeItem("emailConfirmPage");
 
   return (
     <div style={{ backgroundImage: `url(${supermarket})` }} className="bg-cover bg-bottom h-screen">
-      <AdminPanel adminPanel={adminPanel} />
-      <div className="w-full h-[calc(100%-160px)] flex justify-center items-center gap-40 overflow-hidden">
+      <div className="w-full h-full flex justify-center items-center gap-40 overflow-hidden">
         <div className="p-10 bg-white/60 rounded-[48px] shadow-[0px_2.4000000953674316px_2.4000000953674316px_0px_rgba(0,0,0,0.25)] outline-4 outline-blue-600 inline-flex flex-col justify-center items-center gap-7 overflow-hidden">
           <RegisterSign />
           {!emailConfirmPage && !emailConfirmed && (
