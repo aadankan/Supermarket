@@ -43,8 +43,6 @@ def create_category(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    if current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized")
     return crud_category.create_category(db, category)
 
 @router.put("/{category_id}", response_model=Category)
@@ -54,8 +52,6 @@ def update_category(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    if current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized")
     existing = crud_category.get_by_id(db, category_id)
     if not existing:
         raise HTTPException(status_code=404, detail="Category not found")
@@ -67,8 +63,6 @@ def delete_category(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    if current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized")
     existing = crud_category.get_by_id(db, category_id)
     if not existing:
         raise HTTPException(status_code=404, detail="Category not found")
