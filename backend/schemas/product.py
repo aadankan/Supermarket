@@ -8,6 +8,7 @@ class ProductBase(BaseModel):
     price: Decimal
     count: int = 0
     image_url: Optional[str] = None
+    category_id: Optional[int] = None
 
 class ProductCreate(ProductBase):
     class Config:

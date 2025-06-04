@@ -34,6 +34,7 @@ def get_db():
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+    
 
 # Routers
 app.include_router(product.router, prefix="/products", tags=["products"])

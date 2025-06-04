@@ -71,9 +71,9 @@ def update_user(db: Session, user_id: int, user_data: UserUpdate):
     # Adres — sprawdź czy istnieje domyślny
     existing_address = get_default_address(db, user_id)
 
-    if any([user_data.street, user_data.city, user_data.postalCode, user_data.country]):
-        if existing_address:
-            # Aktualizacja istniejącego adresu
+    if existing_address:
+        # Aktualizacja istniejącego adresu (jeśli są nowe dane)
+        if any([user_data.street, user_data.city, user_data.postalCode, user_data.country]):
             address_update = AddressUpdate(
                 street=user_data.street or existing_address["street"],
                 city=user_data.city or existing_address["city"],
@@ -81,23 +81,31 @@ def update_user(db: Session, user_id: int, user_data: UserUpdate):
                 country=user_data.country or existing_address["country"]
             )
             update_address(db, existing_address["id"], address_update)
-        else:
-            # Tworzenie nowego adresu domyślnego
-            address_create = AddressCreate(
-                user_id=user_id,
-                street=user_data.street or "",
-                city=user_data.city or "",
-                postal_code=user_data.postalCode or "",
-                country=user_data.country or "",
-                is_default=True,
-                created_at=datetime.utcnow().isoformat()
+    else:
+        # Wymuś podanie adresu, jeśli go nie ma
+        if not all([user_data.street, user_data.city, user_data.postalCode, user_data.country]):
+            raise HTTPException(
+                status_code=400,
+                detail="Address is required (street, city, postalCode, country) for users without a default address."
             )
-            new_address = create_address(db, address_create)
-            # Aktualizuj default_address_id w Users
-            db.execute(
-                text("UPDATE Users SET default_address_id = :address_id WHERE id = :user_id"),
-                {"address_id": new_address["address_id"], "user_id": user_id}
-            )
+
+        # Tworzenie nowego adresu domyślnego
+        address_create = AddressCreate(
+            user_id=user_id,
+            street=user_data.street,
+            city=user_data.city,
+            postal_code=user_data.postalCode,
+            country=user_data.country,
+            is_default=True,
+            created_at=datetime.utcnow().isoformat()
+        )
+        new_address = create_address(db, address_create)
+
+        # Aktualizuj default_address_id w Users
+        db.execute(
+            text("UPDATE Users SET default_address_id = :address_id WHERE id = :user_id"),
+            {"address_id": new_address["address_id"], "user_id": user_id}
+        )
 
     # Jeśli były zmiany użytkownika — wykonaj zapytanie SQL
     if fields:

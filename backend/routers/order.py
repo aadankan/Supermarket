@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.database import SessionLocal
-from schemas.order import OrderCreate, OrderUpdate, Order
+from schemas.order import OrderCreate, OrderUpdate, Order, OrderCreateWithItems
 from crud import order as crud_order
 from routers.auth import get_current_user
 from models.user import User as UserModel
@@ -35,6 +35,15 @@ def get_order_by_id(
         raise HTTPException(status_code=404, detail="Order not found")
     return order
 
+# Get orders by user ID
+@router.get("/user/{user_id}", response_model=list[Order])
+def get_orders_by_user_id(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    return crud_order.get_orders_by_user_id(db, user_id)
+
 # Create a new order
 @router.post("/", response_model=dict)
 def create_order(
@@ -44,8 +53,13 @@ def create_order(
 ):
     return crud_order.create_order(db, order)
 
+@router.post("/with-items")
+def create_order_with_items(order: OrderCreateWithItems, db: Session = Depends(get_db)):
+    return crud_order.create_order_with_items(db, order)
+
+
 # Update an existing order
-@router.put("/{order_id}", response_model=dict)
+@router.patch("/{order_id}", response_model=dict)
 def update_order(
     order_id: int,
     order: OrderUpdate,
@@ -55,8 +69,8 @@ def update_order(
     existing = crud_order.get_order_by_id(db, order_id)
     if not existing:
         raise HTTPException(status_code=404, detail="Order not found")
-    crud_order.update_order(db, order_id, order)
-    return {"message": "Order updated successfully"}
+    return crud_order.update_order(db, order_id, order)
+
 
 # Delete an order
 @router.delete("/{order_id}", response_model=dict)
