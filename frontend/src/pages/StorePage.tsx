@@ -8,6 +8,7 @@ import cartBadged from "../assets/icons/cartBadged.svg";
 import Product from "../components/store/Product";
 import LogoutButton from "../components/account.tsx/LogoutButton";
 import CartModal from "../components/Cart";
+import OrdersModal from "../components/store/OrdersModal";
 
 type ProductType = {
   id: number;
@@ -32,6 +33,19 @@ type UserType = {
   email: string;
 };
 
+type OrderItemType = {
+  id: number;
+  order_date: string;
+  status: string;
+  items: {
+    product_id: number;
+    quantity: number;
+    price: string;
+    name: string;
+    image_url: string;
+  }[];
+};
+
 const Store = () => {
   const [cartActive, setCartActive] = useState(false);
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -39,6 +53,8 @@ const Store = () => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [currentUser, setCurrentUser] = useState<UserType | null>(null);
+  const [orders, setOrders] = useState<OrderItemType[]>([]);
+  const [ordersModalActive, setOrdersModalActive] = useState(false);
 
   const navigate = useNavigate();
 
@@ -89,6 +105,24 @@ const Store = () => {
     }
   };
 
+  const fetchOrders = async (userId: number) => {
+    try {
+      const response = await fetch(`http://localhost:8000/orders/user/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!response.ok) throw new Error("Błąd pobierania zamówień");
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      alert("Nie udało się pobrać zamówień.");
+      return [];
+    }
+  };
+
   const fetchCurrentUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -123,6 +157,7 @@ const Store = () => {
 
   useEffect(() => {
     fetchCurrentUser();
+
     const fetchData = async () => {
       const productsData = await getProducts();
       const categoriesData = await getCatergories();
@@ -158,9 +193,13 @@ const Store = () => {
   const placeOrder = async () => {
     if (cartItems.length === 0) return;
 
-    const userId = 1;
-    const shippingAddressId = 1;
-    const billingAddressId = 1;
+    if (!currentUser) {
+      alert("Nie jesteś zalogowany. Zaloguj się, aby złożyć zamówienie.");
+      return;
+    }
+    const userId = currentUser.id;
+    const shippingAddressId = 1; // Replace with actual shipping address ID
+    const billingAddressId = 1; // Replace with actual billing address ID
 
     try {
       const response = await fetch("http://localhost:8000/orders/with-items", {
@@ -193,6 +232,16 @@ const Store = () => {
     }
   };
 
+  const showOrders = async () => {
+    if (!currentUser) {
+      alert("Nie jesteś zalogowany. Zaloguj się, aby zobaczyć swoje zamówienia.");
+      return;
+    }
+    const userOrders = await fetchOrders(currentUser.id);
+    setOrders(userOrders);
+    setOrdersModalActive(true); // <-- poprawione, wcześniej było `false`
+  };
+
   return (
     <div
       style={{ backgroundImage: `url(${supermarketInside})` }}
@@ -218,8 +267,20 @@ const Store = () => {
           <div>
             <h1 className="text-4xl font-bold text-blue-600 font-['Jacques_Francois_Shadow']">Welcome to the Store!</h1>
           </div>
-          <div className="flex items-center justify-end gap-8" onClick={() => setCartActive(!cartActive)}>
-            <img src={cartItems.length > 0 ? cartBadged : cart} alt="Cart" className="w-12 h-12 cursor-pointer" />
+          <div className="flex items-center justify-end gap-8">
+            <button
+              onClick={showOrders}
+              className="p-3 rounded-full bg-white/50 text-blue-700 font-semibold hover:text-blue-900 hover:bg-gray-200 outline-2 cursor-pointer shadow-md transition-colors duration-300"
+            >
+              Moje zamówienia
+            </button>
+
+            <img
+              src={cartItems.length > 0 ? cartBadged : cart}
+              alt="Cart"
+              className="w-12 h-12 cursor-pointer"
+              onClick={() => setCartActive(!cartActive)}
+            />
           </div>
         </div>
         <div className="w-full flex items-center justify-center bg-blue-200/50 outline-2 outline-blue-500 rounded-xl">
@@ -268,6 +329,7 @@ const Store = () => {
           onOrder={placeOrder}
         />
       )}
+      {ordersModalActive && <OrdersModal orders={orders} onClose={() => setOrdersModalActive(false)} />}
     </div>
   );
 };

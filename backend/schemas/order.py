@@ -23,9 +23,9 @@ class OrderCreateWithItems(BaseModel):
 
 # Pydantic model for updating an order
 class OrderUpdate(BaseModel):
-    user_id: Optional[int]
-    order_date: Optional[datetime]
-    status: Optional[str]
+    user_id: Optional[int] = None
+    order_date: Optional[datetime] = None
+    status: str
 
     class Config:
         orm_mode = True
@@ -36,6 +36,8 @@ class Order(BaseModel):
     user_id: int
     order_date: datetime
     status: str
+    items: Optional[List[OrderItemCreate]] = None
+
 
     class Config:
         orm_mode = True

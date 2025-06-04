@@ -8,14 +8,10 @@ import LogoutButton from "../components/account.tsx/LogoutButton";
 import ProductsTable from "../components/adminPanel/ProductsTab";
 import CategoriesTable from "../components/adminPanel/CategoriesTab";
 import SuppliersTable from "../components/adminPanel/SuppliersTab";
+import OrdersTable from "../components/adminPanel/OrdersTab";
 
 const AdminPanelPage = () => {
   const [currentTab, setCurrentTab] = useState<string>("Orders");
-  const [orders, setOrders] = useState<any[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [transactions, setTransactions] = useState<any[]>([]);
-  const [suppliers, setSuppliers] = useState<any[]>([]);
   const navigate = useNavigate();
 
   const logout = () => {
@@ -78,6 +74,7 @@ const AdminPanelPage = () => {
             {currentTab === "Products" && <ProductsTable />}
             {currentTab === "Categories" && <CategoriesTable />}
             {currentTab === "Suppliers" && <SuppliersTable />}
+            {currentTab === "Orders" && <OrdersTable />}
           </div>
         </div>
       </div>
