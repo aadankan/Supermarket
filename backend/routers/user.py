@@ -44,6 +44,13 @@ def get_user_id_by_email(data: EmailRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return {"userId": user["id"]}
 
+@router.put("/{user_id}", response_model=UserOut)
+def update_user(user_id: int, user_update: UserUpdate, db: Session = Depends(get_db)):
+    existing = crud_user.get_by_id(db, user_id)
+    if not existing:
+        raise HTTPException(status_code=404, detail="User not found")
+    return crud_user.update_user(db, user_id, user_update)
+
 @router.delete("/{user_id}", response_model=dict)
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     existing = crud_user.get_by_id(db, user_id)

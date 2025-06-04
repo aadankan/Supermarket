@@ -89,20 +89,9 @@ def create_order_with_items(db: Session, order_data: OrderCreateWithItems):
             }
         )
 
-        db.execute(
-            text("""
-                UPDATE Inventory
-                SET quantity = quantity - :quantity
-                WHERE product_id = :product_id AND quantity >= :quantity
-            """),
-            {
-                "product_id": item.product_id,
-                "quantity": item.quantity
-            }
-        )
-
     db.commit()
     return {"message": "Order created successfully", "order_id": order_id}
+
 
 # Update an existing order
 def update_order(db: Session, order_id: int, order_data: OrderUpdate):
