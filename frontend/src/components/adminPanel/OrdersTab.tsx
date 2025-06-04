@@ -72,7 +72,7 @@ const OrdersTable = () => {
   return (
     <>
       <div className="w-full flex justify-between items-center">
-        <p className="text-2xl mb-4 font-semibold">Zamówienia</p>
+        <p className="text-2xl mb-4 font-semibold">Selected Tab: Orders</p>
       </div>
 
       <div className="h-[88%] flex flex-col gap-2 overflow-auto relative">
