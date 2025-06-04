@@ -8,12 +8,11 @@ from datetime import datetime, timedelta
 import os
 from models.database import SessionLocal
 import jwt
-
+from jwt.exceptions import PyJWTError
 
 router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-router = APIRouter()
 
 def get_db():
     db = SessionLocal()
@@ -44,8 +43,7 @@ def login(user_login: UserLogin, db: Session = Depends(get_db)):
     )
     return {"access_token": token, "token_type": "bearer"}
 
-
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> UserModel:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
@@ -54,10 +52,11 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: str = payload.get("sub")
-        if user_id is None:
+        user_id_str = payload.get("sub")
+        if user_id_str is None:
             raise credentials_exception
-    except jwt.PyJWTError:
+        user_id = int(user_id_str)
+    except (PyJWTError, ValueError):
         raise credentials_exception
 
     user = db.query(UserModel).filter(UserModel.id == user_id).first()

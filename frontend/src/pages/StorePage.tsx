@@ -27,13 +27,18 @@ type CartItemType = {
   count: number;
 };
 
+type UserType = {
+  id: number;
+  email: string;
+};
+
 const Store = () => {
   const [cartActive, setCartActive] = useState(false);
-
   const [products, setProducts] = useState<ProductType[]>([]);
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
 
   const navigate = useNavigate();
 
@@ -84,7 +89,40 @@ const Store = () => {
     }
   };
 
+  const fetchCurrentUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/users/me", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 401) {
+        // token nieprawidłowy lub wygasł
+        localStorage.removeItem("token");
+        navigate("/login");
+        return;
+      }
+
+      const data = await response.json();
+      setCurrentUser(data);
+    } catch (error) {
+      console.error("Failed to fetch current user:", error);
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
+  };
+
   useEffect(() => {
+    fetchCurrentUser();
     const fetchData = async () => {
       const productsData = await getProducts();
       const categoriesData = await getCatergories();
