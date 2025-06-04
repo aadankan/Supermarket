@@ -7,6 +7,8 @@ class ProductBase(BaseModel):
     description: Optional[str] = None
     price: Decimal
     count: int = 0
+    image_url: Optional[str] = None
+    category_id: Optional[int] = None
 
 class ProductCreate(ProductBase):
     class Config:
@@ -23,6 +25,9 @@ class ProductUpdate(BaseModel):
     description: Optional[str] = None
     price: Optional[Decimal] = None
     count: Optional[int] = None
+    image_url: Optional[str] = None
+    category_id: Optional[int] = None
+    supplier_id: Optional[int] = None
 
     class Config:
         orm_mode = True

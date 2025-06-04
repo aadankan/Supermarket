@@ -1,0 +1,158 @@
+INSERT INTO `Categories` (`id`, `name`) VALUES 
+(NULL, 'Owoce'),
+(NULL, 'Warzywa'), (NULL, 'Ryby'),
+(NULL, 'Sery'), (NULL, 'Mięso'),
+(NULL, 'Elektronika'),
+(NULL, 'Pieczywo'),
+(NULL, 'Słodycze'),
+(NULL, 'Napoje'),
+(NULL, 'Alkohol');
+
+INSERT INTO `Suppliers` (`id`, `name`, `phone_number`, `email`, `address`) VALUES 
+(NULL, 'FreshFruits Co.', '837293584', 'kontakt@freshfruits.pl', NULL),
+(NULL, 'Zielony Warzywniak', '825374928', 'biuro@zielonywarzywniak.pl', NULL),
+(NULL, 'Baltic Fish', '812938475', 'info@balticfish.pl', NULL),
+(NULL, 'Serowarnia Podhale', '829374556', 'kontakt@serypodhale.pl', NULL),
+(NULL, 'Mięsny Raj', '834759201', 'kontakt@miesnyraj.pl', NULL),
+(NULL, 'TechMarket', '812394857', 'sprzedaz@techmarket.pl', NULL),
+(NULL, 'Piekarnia Krakowska', '823749123', 'zamowienia@piekarniakrakowska.pl', NULL),
+(NULL, 'Słodka Chwila', '837495837', 'kontakt@slodkachwila.pl', NULL),
+(NULL, 'Napojowo Sp. z o.o.', '849201384', 'info@napojowo.pl', NULL),
+(NULL, 'Alko-Pol', '832748392', 'kontakt@alkopol.pl', NULL);
+
+INSERT INTO `Products` (`id`, `name`, `price`, `description`, `category_id`, `supplier_id`, `image_url`) VALUES
+(1, 'Banan', 2.00, 'Banany są pochodzenia Filipińskiego, słodkie, można dodać je do sałatki owocowej.', 1, 1, 'https://bonavita.pl/data/2015/09/sleep-banana.jpg'),
+(2, 'Jabłko', 1.50, 'Świeże jabłka z lokalnych sadów, idealne na sok lub przekąskę.', 1, 1, 'https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg'),
+(3, 'Pomarańcza', 2.30, 'Soczyste pomarańcze z Hiszpanii, bogate w witaminę C.', 1, 1, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg'),
+(4, 'Winogrona', 4.50, 'Winogrona bezpestkowe, słodkie i idealne na podwieczorek.', 1, 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMTs8Hkt1c2N9FN2h_1K53rXZUzC01Uf7IDw&s'),
+(5, 'Gruszka', 2.10, 'Gruszki o delikatnej strukturze, idealne do ciast i deserów.', 1, 1, 'https://sadygrojeckie.pl/wp-content/uploads/2023/03/gruszka-2-1.jpg'),
+(6, 'Mango', 5.00, 'Dojrzałe mango z Brazylii, słodkie i aromatyczne.', 1, 1, 'https://freshfruitbox.pl/wp-content/uploads/2023/07/mango-odmiana-keitt-1szt.jpg'),
+(7, 'Ananas', 6.20, 'Egzotyczny ananas, idealny do deserów i sałatek owocowych.', 1, 1, 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Pineapple_and_cross_section.jpg'),
+(8, 'Marchew', 5.00, 'Polska Marchew, pyszna i bogata w witaminy.', 2, 2, 'https://ewabis.com.pl/wp-content/uploads/2018/09/marchew.jpg'),
+(9, 'Ziemniaki', 2.50, 'Świeże ziemniaki prosto z gospodarstwa, idealne do obiadu.', 2, 2, 'https://i0.wp.com/zywnosc-ekologiczna.com.pl/wp-content/uploads/2019/02/ekologiczny-ziemniak-%C5%BCywno%C5%9B%C4%87-ekologiczna-EKO-HANDEL-Miros%C5%82aw-Kope%C4%87.png?fit=800%2C800&ssl=1'),
+(10, 'Pomidor', 3.20, 'Dojrzałe pomidory malinowe, soczyste i aromatyczne.', 2, 2, 'https://esklep.pelcowizna.pl/userdata/public/gfx/18765/40214.jpg'),
+(11, 'Ogórek', 2.80, 'Chrupiące ogórki gruntowe, idealne do sałatki.', 2, 2, 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR2pv_H4FwDfgJvwON1Npe3AjgVnwxo7DATVefAz08p-7TjX-9xIs4CVASTSrgRRND8QCzz0yhsLeFfiJ07zAoxsPsrwMtLmBW8lxJ6v3Ys8Q'),
+(12, 'Cebula', 1.90, 'Żółta cebula o intensywnym smaku, niezbędna w kuchni.', 2, 2, 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTS3pxMOOXheFQ5Vprr82-NrOkYgoaknLmCZQA433LzFBksZcZZsh6Jew9Y-KgCImHmcO7Al586UEMYMgI0sIK0LsNtNacDIAtC0UN1EfQ'),
+(13, 'Sałata', 3.00, 'Świeża sałata masłowa, idealna do kanapek i sałatek.', 2, 2, 'https://wszystkoojedzeniu.pl/site/assets/files/1220/salata.650x0.jpg'),
+(14, 'Papryka', 4.70, 'Czerwona papryka, słodka i soczysta, pełna witaminy C.', 2, 2, 'https://bazarekpolski.pl/wp-content/uploads/2020/11/papryka-czerwona.jpg'),
+(15, 'Łosoś atlantycki', 24.90, 'Świeży łosoś atlantycki, doskonały do pieczenia lub sushi.', 3, 3, 'https://atlasryb.online/zdjecia/1970_1200.jpg'),
+(16, 'Dorsz bałtycki', 18.50, 'Chudy dorsz z Bałtyku, idealny do smażenia lub gotowania.', 3, 3, 'https://wedkarstwotv.pl/images/userfiles/1_foty_do_artow/Atlas/dorsz.png'),
+(17, 'Pstrąg tęczowy', 16.00, 'Świeży pstrąg z hodowli, delikatny smak i mało ości.', 3, 3, 'https://atlasryb.online/zdjecia/2640_1200.jpg'),
+(18, 'Makrela wędzona', 12.80, 'Wędzona makrela o intensywnym smaku, gotowa do jedzenia.', 3, 3, 'https://www.irybka.pl/hpeciai/94cf8763d538275c1d7161c30f72a7d1/pol_pl_Makrela-wedzona-duza-klasa-1-8_1.jpg'),
+(19, 'Śledź marynowany', 10.40, 'Klasyczny śledź marynowany w cebuli i occie.', 3, 3, 'https://www.lisner.pl/fileadmin/_processed_/1/4/csm_Wiejskie_filety_sledziowe_z_cebulka_600g_3e11ca23fa.png'),
+(20, 'Ser żółty Gouda', 14.50, 'Klasyczny ser żółty typu Gouda, idealny do kanapek.', 4, 4, 'https://sklep.spolemkielce.pl/wp-content/uploads/2020/04/mlekpol_rolmlecz_ser-gouda_kg.png'),
+(21, 'Oscypek', 9.00, 'Tradycyjny wędzony ser owczy z Podhala.', 4, 4, 'https://a.allegroimg.com/original/03805d/ac96fdbb4aeaaecb9071b3314140/Serek-z-Certyfikatem-Gorski-Wedzony-DUZY'),
+(22, 'Mozzarella', 6.80, 'Delikatna mozzarella, idealna do pizzy i sałatek.', 4, 4, 'https://polskikoszyk.pl/userdata/public/gfx/109110/Galbani-Mozzarella-Light-Ser-125-g.jpg'),
+(23, 'Brie', 13.40, 'Francuski ser pleśniowy o kremowej konsystencji.', 4, 4, 'https://upload.wikimedia.org/wikipedia/commons/8/88/Brie_01.jpg'),
+(24, 'Ser feta', 7.90, 'Grecki ser feta z mleka owczego i koziego, doskonały do sałatek.', 4, 4, 'https://smaki-grecji.pl/wp-content/uploads/2021/07/oryginalny-ser-feta.jpg'),
+(25, 'Camembert', 11.20, 'Ser pleśniowy Camembert o delikatnym aromacie.', 4, 4, 'https://czaswina.pl/wp-content/uploads/2018/04/135660083348.jpg'),
+(26, 'Polędwica wołowa', 39.90, 'Delikatna polędwica wołowa, idealna do steków.', 5, 5, 'https://popularnaryba.com/hpeciai/66862829e06d5fe7bc93e818cbd23ae6/pol_pl_Poledwica-wolowa-2-0-2187_1.png'),
+(27, 'Schab wieprzowy', 22.50, 'Soczysty schab bez kości, świetny do pieczenia.', 5, 5, 'https://leclerc.com.pl/public/upload/sellasist_cache/thumb_page_b822a56d240e6724b98f2eaaf0877f93.jpg'),
+(28, 'Pierś z kurczaka', 19.00, 'Chude mięso drobiowe, doskonałe do smażenia i grillowania.', 5, 5, 'https://profit.sklepkupiec.pl/26733-large_default/filet-z-piersi-kurczaka.jpg'),
+(29, 'Kiełbasa wiejska', 18.40, 'Wędzona kiełbasa z naturalnych przypraw, tradycyjny smak.', 5, 5, 'https://subun.pl/templates/yootheme/cache/7e/kielbasa-wiejska-soltysa-7ea9847c.jpeg'),
+(30, 'Udko z kurczaka', 13.20, 'Miękkie i soczyste udka, idealne do pieczenia lub duszenia.', 5, 5, 'https://smakigarwolina.pl/wp-content/uploads/2017/06/udko-z-kurczaka.jpg'),
+(31, 'Boczek wędzony', 16.70, 'Wędzony boczek, aromatyczny i chrupiący po podsmażeniu.', 5, 5, 'https://zpm-karol.pl/wp-content/uploads/2023/04/Boczek-xyz-scaled.jpg'),
+(32, 'Smartfon XPhone 12', 1499.00, 'Nowoczesny smartfon z ekranem AMOLED 6.5\", 128GB pamięci.', 6, 6, 'https://www.twoj-smartfon.pl/userdata/public/gfx/2032/iphone-12-white.jpg'),
+(33, 'Laptop ProBook 15', 3299.00, 'Wydajny laptop z procesorem i5, 16GB RAM i SSD 512GB.', 6, 6, 'https://laptopydlanauczyciela.pl/cdn/shop/files/Ronin_15_NaturalSilver_T_HDcam_WLAN_nonODD_FPR_Win11_CoreSet_FrontLeft.jpg?v=1700664456'),
+(34, 'Słuchawki bezprzewodowe', 199.00, 'Bluetooth 5.0, redukcja szumów, czas pracy do 24h.', 6, 6, 'https://mi-store.pl/hpeciai/8bc846648c5be220ff7fe238343a09b2/pol_pl_Sluchawki-Bluetooth-Bezprzewodowe-Xiaomi-Redmi-Buds-6-Play-Black-2911_2.webp'),
+(35, 'Telewizor 50\" 4K', 1899.00, 'Smart TV z matrycą UHD, HDR, Wi-Fi, HDMI x3.', 6, 6, 'https://mi-store.pl/hpeciai/4a838357c87c53f5de9ae6a951febb19/pol_pl_Telewizor-4K-Xiaomi-TV-A-2025-50-2708_2.webp'),
+(36, 'Smartwatch FitBand 3', 249.00, 'Monitor snu, puls, krokomierz, wodoodporny.', 6, 6, 'https://consumer.huawei.com/dam/content/dam/huawei-cbg-site/common/mkt/pdp/wearables/watch-fit3/images/compare/watch-fit3.png'),
+(37, 'Chleb pszenny', 4.20, 'Chleb na zakwasie, wypiekany codziennie rano.', 7, 7, 'https://asprod.com.pl/wp-content/uploads/2020/08/17.png'),
+(38, 'Bułka kajzerka', 0.70, 'Mała bułka pszenna z chrupiącą skórką.', 7, 7, 'https://piekarniagrzybki.pl/wp-content/uploads/2017/12/kajzerka.jpg'),
+(39, 'Bagietka francuska', 3.20, 'Długa bagietka w stylu francuskim, idealna do kanapek.', 7, 7, 'https://piekarnianowakowski.pl/wp-content/uploads/2020/04/Bagietka-280g.jpg'),
+(40, 'Rogalik maślany', 1.50, 'Słodki rogalik z masłem, idealny na śniadanie.', 7, 7, 'https://piekarniagromulski.pl/site/assets/files/1533/maslany_rogal.jpg'),
+(41, 'Chleb żytni', 4.80, 'Chleb z mąki żytniej, wilgotny i aromatyczny.', 7, 7, 'https://spc.pl/wp-content/uploads/2024/04/chleb-zytni-na-modzie.jpg'),
+(42, 'Czekolada mleczna', 4.50, 'Czekolada mleczna z orzechami, delikatna i słodka.', 8, 8, 'https://sklep.wedelpijalnie.pl/wp-content/uploads/2024/09/5901588018775.jpg'),
+(43, 'Baton orzechowy', 2.30, 'Baton z orzechami i karmelem, idealny na szybką przekąskę.', 8, 8, 'https://igrek24.com/userdata/public/gfx/816/baton-bars-cynamon-3x30g--3.jpg'),
+(44, 'Ciastka maślane', 3.90, 'Kruche ciastka maślane, wypiekane na tradycyjnej recepturze.', 8, 8, 'https://poprostupycha.com.pl/wp-content/uploads/2023/12/ciasteczka-maslane_9.jpg'),
+(45, 'Gumy rozpuszczalne', 1.80, 'Owocowe gumy do żucia, popularne wśród dzieci.', 8, 8, 'https://www.kuri.com.pl/img/products/22/19/2_org.jpg'),
+(46, 'Lizaki owocowe', 0.99, 'Kolorowe lizaki o smaku truskawki, coli i cytryny.', 8, 8, 'https://slodycze-24.pl/wp-content/uploads/2017/09/lizaki-deseniowe-8-g.jpg'),
+(47, 'Woda mineralna', 1.20, 'Naturalna woda źródlana, gazowana.', 9, 9, 'https://albo24.pl/wp-content/uploads/Cisowianka-Naturalna-woda-mineralna-gazowana-niskosodowa-15-l.jpg'),
+(48, 'Sok pomarańczowy', 3.40, '100% sok z pomarańczy, bez dodatku cukru.', 9, 9, 'https://sadvit.pl/wp-content/uploads/2023/12/POmar.png'),
+(49, 'Cola', 2.80, 'Klasyczny napój gazowany o smaku coli.', 9, 9, 'https://szybkikoszyk.pl/napoj-gazowany-coca-cola-330-ml.2.jpg'),
+(50, 'Piwo jasne', 3.50, 'Lekkie piwo typu lager, orzeźwiające i klasyczne.', 10, 10, 'https://sklep.piwoteka.pl/images/items/150/piwoteka-jasne-lekkie-min_big.jpg'),
+(51, 'Wino czerwone', 19.90, 'Wytrawne wino czerwone z nutą wiśni i dębu.', 10, 10, 'https://lacave.com.pl/2503-large_default/fresco-wino-czerwone-polslodkie-polskie-750-ml.jpg'),
+(52, 'Wódka czysta', 24.00, 'Wódka 40%, filtrowana, klasyczny polski smak.', 10, 10, 'https://lacave.com.pl/2417-large_default/zubrowka-biala-wodka-czysta-1-l.jpg'),
+(53, 'Szampan', 49.90, 'Musujące wino z Francji, idealne na specjalne okazje.', 10, 10, 'https://alkoholefuks.pl/userdata/public/gfx/866/669a9a7a2f125a6ab03d6e07945b42b5.jpg'),
+(54, 'Likier kawowy', 27.50, 'Słodki likier o smaku kawy, idealny do deserów.', 10, 10, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyViXwRLE0wyvegO72sErBZiGYogZxncrKnw&s');
+
+
+owoce warzywa do magazynu A, sery, mięsa i ryby do magazynu B, elektronika , pieczywo, słodycze do C, napoje i alkohole do D
+
+INSERT INTO `Inventory` (`product_id`, `quantity`, `location`) VALUES
+-- Owoce (id 1-7)
+('1', 47, 'Magazyn A'),
+('2', 55, 'Magazyn A'),
+('3', 30, 'Magazyn A'),
+('4', 60, 'Magazyn A'),
+('5', 40, 'Magazyn A'),
+('6', 25, 'Magazyn A'),
+('7', 50, 'Magazyn A'),
+
+-- Warzywa (id 8-14)
+('8', 35, 'Magazyn A'),
+('9', 20, 'Magazyn A'),
+('10', 15, 'Magazyn A'),
+('11', 28, 'Magazyn A'),
+('12', 33, 'Magazyn A'),
+('13', 23, 'Magazyn A'),
+('14', 44, 'Magazyn A'),
+
+-- Ryby (id 15-19)
+('15', 45, 'Magazyn B'),
+('16', 38, 'Magazyn B'),
+('17', 40, 'Magazyn B'),
+('18', 18, 'Magazyn B'),
+('19', 22, 'Magazyn B'),
+
+-- Sery (id 20-25)
+('20', 36, 'Magazyn B'),
+('21', 41, 'Magazyn B'),
+('22', 24, 'Magazyn B'),
+('23', 31, 'Magazyn B'),
+('24', 27, 'Magazyn B'),
+('25', 29, 'Magazyn B'),
+
+-- Mięso (id 26-31)
+('26', 26, 'Magazyn B'),
+('27', 48, 'Magazyn B'),
+('28', 43, 'Magazyn B'),
+('29', 55, 'Magazyn B'),
+('30', 39, 'Magazyn B'),
+('31', 20, 'Magazyn B'),
+
+-- Elektronika (id 32-36)
+('32', 12, 'Magazyn C'),
+('33', 7, 'Magazyn C'),
+('34', 9, 'Magazyn C'),
+('35', 11, 'Magazyn C'),
+('36', 5, 'Magazyn C'),
+
+-- Pieczywo (id 37-41)
+('37', 40, 'Magazyn C'),
+('38', 38, 'Magazyn C'),
+('39', 45, 'Magazyn C'),
+('40', 41, 'Magazyn C'),
+('41', 29, 'Magazyn C'),
+
+-- Słodycze (id 42-46)
+('42', 33, 'Magazyn C'),
+('43', 22, 'Magazyn C'),
+('44', 24, 'Magazyn C'),
+('45', 28, 'Magazyn C'),
+('46', 36, 'Magazyn C'),
+
+-- Napoje (id 47-49)
+('47', 35, 'Magazyn D'),
+('48', 20, 'Magazyn D'),
+('49', 40, 'Magazyn D'),
+
+-- Alkohol (id 50-54)
+('50', 50, 'Magazyn D'),
+('51', 25, 'Magazyn D'),
+('52', 30, 'Magazyn D'),
+('53', 38, 'Magazyn D'),
+('54', 45, 'Magazyn D');
+
+
+

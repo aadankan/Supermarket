@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
+
+from schemas.order_item import OrderItemCreate
 
 # Pydantic model for creating an order
 class OrderCreate(BaseModel):
@@ -11,11 +13,19 @@ class OrderCreate(BaseModel):
     class Config:
         orm_mode = True
 
+class OrderCreateWithItems(BaseModel):
+    user_id: int
+    shipping_address_id: int
+    billing_address_id: int
+    items: List[OrderItemCreate]
+    order_date: Optional[datetime] = None
+    status: Optional[str] = "pending"
+
 # Pydantic model for updating an order
 class OrderUpdate(BaseModel):
-    user_id: Optional[int]
-    order_date: Optional[datetime]
-    status: Optional[str]
+    user_id: Optional[int] = None
+    order_date: Optional[datetime] = None
+    status: str
 
     class Config:
         orm_mode = True
@@ -26,6 +36,8 @@ class Order(BaseModel):
     user_id: int
     order_date: datetime
     status: str
+    items: Optional[List[OrderItemCreate]] = None
+
 
     class Config:
         orm_mode = True

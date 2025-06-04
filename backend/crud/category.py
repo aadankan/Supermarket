@@ -13,7 +13,7 @@ def get_by_id(db: Session, category_id: int):
     result = db.execute(
         text("SELECT * FROM Categories WHERE id = :id"),
         {"id": category_id}
-    ).first()
+    ).mappings().first()  # Use .mappings() to get dict-like rows
     return dict(result) if result else None
 
 def create_category(db: Session, category: CategoryCreate):
@@ -27,7 +27,7 @@ def create_category(db: Session, category: CategoryCreate):
     result = db.execute(
         text("SELECT * FROM Categories WHERE name = :name"),
         {"name": category.name}
-    ).first()
+    ).mappings().first()
     return dict(result) if result else {"message": "Category created successfully"}
 
 def update_category(db: Session, category_id: int, category: CategoryUpdate):
@@ -40,7 +40,7 @@ def update_category(db: Session, category_id: int, category: CategoryUpdate):
     result = db.execute(
         text("SELECT * FROM Categories WHERE id = :id"),
         {"id": category_id}
-    ).first()
+    ).mappings().first()
     return dict(result) if result else {"message": "Category updated successfully"}
 
 def delete_category(db: Session, category_id: int):

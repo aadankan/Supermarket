@@ -4,12 +4,12 @@ from sqlalchemy import text
 
 def get_suppliers(db: Session, skip: int = 0, limit: int = 100):
     query = text("SELECT * FROM Suppliers LIMIT :limit OFFSET :skip")
-    result = db.execute(query, {"limit": limit, "skip": skip})
+    result = db.execute(query, {"limit": limit, "skip": skip}).mappings()
     return [dict(row) for row in result]
 
 def get_supplier_by_id(db: Session, supplier_id: int):
     query = text("SELECT * FROM Suppliers WHERE id = :supplier_id")
-    result = db.execute(query, {"supplier_id": supplier_id}).fetchone()
+    result = db.execute(query, {"supplier_id": supplier_id}).mappings().first()
     return dict(result) if result else None
 
 def create_supplier(db: Session, supplier: SupplierCreate):
@@ -21,7 +21,7 @@ def create_supplier(db: Session, supplier: SupplierCreate):
     db.commit()
 
     # Get the newly inserted supplier (assuming AUTO_INCREMENT `id`)
-    result = db.execute(text("SELECT * FROM Suppliers ORDER BY id DESC LIMIT 1")).fetchone()
+    result = db.execute(text("SELECT * FROM Suppliers ORDER BY id DESC LIMIT 1")).mappings().first()
     return dict(result)
 
 def update_supplier(db: Session, supplier_id: int, supplier_data: SupplierUpdate):
