@@ -154,5 +154,59 @@ INSERT INTO `Inventory` (`product_id`, `quantity`, `location`) VALUES
 ('53', 38, 'Magazyn D'),
 ('54', 45, 'Magazyn D');
 
+Triggery
+1. Zmniejszenie ilości w magazynie po złożeniu zamówienia
+
+DELIMITER $$
+
+CREATE TRIGGER trg_reduce_inventory_on_order
+AFTER INSERT ON OrderItems
+FOR EACH ROW
+BEGIN
+  UPDATE Inventory
+  SET quantity = quantity - NEW.quantity
+  WHERE product_id = NEW.product_id;
+END$$
+
+DELIMITER ;
+
+
+2. Oznacz email jako potwierdzony, jeśli token został zweryfikowany
+
+DELIMITER $$
+
+CREATE TRIGGER trg_confirm_user_email
+AFTER UPDATE ON email_verifications
+FOR EACH ROW
+BEGIN
+  IF NEW.is_verified = TRUE AND OLD.is_verified = FALSE THEN
+    UPDATE Users SET email_confirmed = TRUE WHERE email = NEW.email;
+  END IF;
+END$$
+
+DELIMITER ;
+
+3. Logowanie zmian ilości w magazynie do tabeli Transactions
+
+DELIMITER $$
+
+CREATE TRIGGER trg_log_inventory_change
+AFTER UPDATE ON Inventory
+FOR EACH ROW
+BEGIN
+  IF NEW.quantity <> OLD.quantity THEN
+    INSERT INTO Transactions (
+      product_id, quantity_change, transaction_type, timestamp, note
+    ) VALUES (
+      NEW.product_id,
+      NEW.quantity - OLD.quantity,
+      'adjustment',
+      NOW(),
+      'Inventory updated'
+    );
+  END IF;
+END$$
+
+DELIMITER ;
 
 
