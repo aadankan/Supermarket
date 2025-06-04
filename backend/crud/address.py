@@ -66,7 +66,7 @@ def get_default_address(db: Session, user_id: int):
     result = db.execute(
         text("SELECT * FROM Addresses WHERE user_id = :user_id AND is_default = 1"),
         {"user_id": user_id}
-    ).first()
+    ).mappings().first()
     return dict(result) if result else None
 
 def delete_address(db: Session, address_id: int):
