@@ -52,7 +52,7 @@ const Product = ({ product, addToCart }: ProductProps) => {
         </button>
       </div>
       <p className="text-xs text-gray-700 font-bold mt-2">
-        {fullPrice}$
+        {fullPrice}zł
       </p>
       <button onClick={() => addToCart(product, count)} className="p-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors cursor-pointer mt-1">
         Add to Cart

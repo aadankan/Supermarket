@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.database import SessionLocal
-from schemas.order import OrderCreate, OrderUpdate, Order
+from schemas.order import OrderCreate, OrderUpdate, Order, OrderCreateWithItems
 from crud import order as crud_order
 from routers.auth import get_current_user
 from models.user import User as UserModel
@@ -43,6 +43,11 @@ def create_order(
     current_user: UserModel = Depends(get_current_user)
 ):
     return crud_order.create_order(db, order)
+
+@router.post("/with-items")
+def create_order_with_items(order: OrderCreateWithItems, db: Session = Depends(get_db)):
+    return crud_order.create_order_with_items(db, order)
+
 
 # Update an existing order
 @router.put("/{order_id}", response_model=dict)

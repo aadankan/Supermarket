@@ -1,8 +1,9 @@
 from pydantic import BaseModel
 from decimal import Decimal
+from typing import Optional
 
 class OrderItemBase(BaseModel):
-    order_id: int
+    order_id: Optional[int] = None
     product_id: int
     quantity: int
     price: Decimal
