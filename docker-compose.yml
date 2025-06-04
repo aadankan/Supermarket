@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   db:
     image: mysql:8.0
@@ -12,6 +14,8 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./mysql-config/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - sklep-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -24,20 +28,47 @@ services:
       - "8080:80"
     depends_on:
       - db
+    networks:
+      - sklep-network
 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   container_name: sklep-backend
-  #   volumes:
-  #     - ./backend:/app
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     - DATABASE_URL=mysql+pymysql://sklep_user:sklep_pass@db:3306/sklep_db
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sklep-backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=mysql+pymysql://sklep_user:sklep_pass@db:3306/sklep_db
+    env_file:
+      - .env
+    networks:
+      - sklep-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sklep-frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+    networks:
+      - sklep-network
 
 volumes:
   db_data:
+
+networks:
+  sklep-network:
+    driver: bridge

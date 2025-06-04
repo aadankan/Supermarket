@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS Addresses, Categories, email_verifications, Inventory, OrderItems, Orders, Products, Suppliers, Transactions, Users;
